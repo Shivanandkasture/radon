@@ -19,7 +19,7 @@ router.put("/users/:userId", userController.updateUser)
 
 router.delete("/users/:userId",  userController.deleteUser)
 
-// middleware
+// middleware routes
 router.get("/usermid/:userId", auth.auth, userController.getUserData)
 
 router.put("/usermid/:userId", auth.auth, userController.updateUser)
