@@ -104,7 +104,6 @@ const updateUser = async function (req, res) {
     {
       return res.send({ status: false, msg: "token is invalid" });
     }
-    
   res.send({ status: updatedUser, data: updatedUser });
 
   

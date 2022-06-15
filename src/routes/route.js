@@ -3,10 +3,9 @@ const router = express.Router();
 const userController= require("../controllers/userController")
 
 const auth  = require('../middleware/auth')
+const authorisation = require('../middleware/auth');
 
-router.get("/test-me", function (req, res) {
-    res.send("My first ever api!")
-})
+
 
 router.post("/users", userController.createUser  )
 
@@ -19,11 +18,13 @@ router.put("/users/:userId", userController.updateUser)
 
 router.delete("/users/:userId",  userController.deleteUser)
 
-// middleware routes
-router.get("/usermid/:userId", auth.auth, userController.getUserData)
+// middleware
+router.get("/usermid/:userId", auth.auth,authorisation.authorisation, userController.getUserData)
 
-router.put("/usermid/:userId", auth.auth, userController.updateUser)
+router.put("/usermid/:userId", auth.auth, authorisation.authorisation, userController.updateUser)
 
-router.delete("/usermid/:userId", auth.auth, userController.deleteUser)
+router.delete("/usermid/:userId", auth.auth,authorisation.authorisation, userController.deleteUser)
+
+//router.get("/user1/:userId",auth.auth, auhtorisation.auhtorisation, userController.getUserData);
 
 module.exports = router;

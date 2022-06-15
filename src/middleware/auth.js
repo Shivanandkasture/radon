@@ -1,4 +1,7 @@
 const jwt = require("jsonwebtoken");
+const userModel = require("../models/userModel");
+
+let verfiyToken;
 
 const auth = async function (req,res,next) {
 
@@ -8,7 +11,7 @@ const auth = async function (req,res,next) {
         return res.send({ error: "no token found" })
     }
 
-    let verfiyToken = jwt.verify (token, "functionup-radon");
+    verfiyToken = jwt.verify (token, "functionup-radon");
     
     if (!verfiyToken) 
     {
@@ -18,4 +21,29 @@ const auth = async function (req,res,next) {
         next ()
 }
 
+// authorisation 
+
+const authorisation = async function(req,res,next){
+
+  
+
+  let UserId = req.params.userId;
+
+  let User = await userModel.findById(UserId);
+
+  let  userLoginToken = verfiyToken.userId;
+
+  if(UserId != userLoginToken ){
+    return res.send({status : false, msg : "user not log in"})
+  }
+ 
+  if(!User){
+    return res.send({status: false, msg: 'No such user exists'})
+  }
+  else{
+    return res.send({status : true, UserData : User });
+  }
+}
+
 module.exports.auth = auth;
+module.exports.authorisation = authorisation;
